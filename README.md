@@ -8,7 +8,15 @@ Bienvenue dans notre projet de préparation pour **EMIHACK 3.0** ! Ce hackathon 
 
 ## 🚀 Fonctionnalités Clés
 
-🔹 **🛡️ Authentification avec Auth0** - OAuth & JWT pour une sécurité optimale. 🔹 **📸 Reconnaissance Faciale** - Identifiez-vous avec votre visage. 🔹 **💬 Chat & Vidéo en Temps Réel** - Communication fluide avec WebRTC. 🔹 **🤖 Chatbot Intelligent** - Assistance instantanée grâce à l’IA. 🔹 **📱 Progressive Web App (PWA)** - Accédez partout, même hors ligne.
+🔹 **🛡️ Authentification avec Auth0** - OAuth & JWT pour une sécurité optimale.
+
+🔹 **📸 Reconnaissance Faciale** - Identifiez-vous avec votre visage.
+
+🔹 **💬 Chat & Vidéo en Temps Réel** - Communication fluide avec WebRTC.
+
+🔹 **🤖 Chatbot Intelligent** - Assistance instantanée grâce à l’IA.
+
+🔹 **📱 Progressive Web App (PWA)** - Accédez partout, même hors ligne.
 
 ## 🛠️ Technologies Utilisées
 
@@ -21,9 +29,13 @@ Bienvenue dans notre projet de préparation pour **EMIHACK 3.0** ! Ce hackathon 
 ## 🔥 Équipe de Développement
 
 👨‍💻 [**RAKOTOARIMANANA Harifetra Anthony**](https://github.com/harifetra-anthony) - Lead Développeur & Fullstack Next.js 🚀
+
 👨‍🎨 [**Nom du Participant 2**](https://github.com/participant2) - UI/UX & Frontend 🎨
+
 🤖 [**Andriamihaja Antsotiana Giovanni**](https://github.com/AntsoTianaG) - IA & Machine Learning 🧠
+
 🎥 [**Falitiana Patrick**](https://github.com/FALY18) - WebRTC & Vidéo Temps Réel 🎬
+
 📡 [**Nom du Participant 5**](https://github.com/participant5) - Présentation & PowerPoint 📊
 
 ## 🔧 Installation & Configuration
