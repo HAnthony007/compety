@@ -58,7 +58,7 @@ export function LoginForm() {
             <div className="flex flex-col gap-6">
                 <div>
                     <label htmlFor="email"
-                           className={errors.email ? "text-red-500 text-muted-foreground" : "text-muted-foreground"}
+                        className={errors.email ? "text-red-500 text-muted-foreground" : "text-muted-foreground"}
                     >
                         Email
                     </label>
@@ -74,7 +74,7 @@ export function LoginForm() {
                 </div>
                 <div>
                     <label htmlFor="password"
-                           className={errors.password ? "text-red-500 text-muted-foreground" : "text-muted-foreground"}
+                        className={errors.password ? "text-red-500 text-muted-foreground" : "text-muted-foreground"}
                     >
                         Password
                     </label>
@@ -96,9 +96,9 @@ export function LoginForm() {
                     {
                         isSubmitting ? (
                             <Button size={'lg'} disabled
-                                    className="w-full text-sm font-semibold"
+                                className="w-full text-sm font-semibold"
                             >
-                                <Loader2 className="animate-spin"/>
+                                <Loader2 className="animate-spin" />
                                 Please wait
                             </Button>
                         ) : (
