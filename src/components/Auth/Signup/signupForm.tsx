@@ -11,9 +11,11 @@ import { Loader2 } from 'lucide-react'
 import { useRouter } from "next/navigation";
 import { registerFormSchemas, registerSchemaType } from "./signupSchema";
 import { registerAction } from "./signup.action";
+import { useScopedI18n } from "@/locales/client";
 
 export function RegisterForm() {
     const router = useRouter();
+    const t = useScopedI18n("auth.registerForm");
 
     const {
         register,
@@ -59,14 +61,14 @@ export function RegisterForm() {
             <div className="flex flex-col gap-6">
                 <div>
                     <label htmlFor="pseudo"
-                           className={errors.pseudo ? "text-red-500 text-muted-foreground" : "text-muted-foreground"}
+                        className={errors.pseudo ? "text-red-500 text-muted-foreground" : "text-muted-foreground"}
                     >
-                        Pseudo
+                        {t("pseudo")}
                     </label>
                     <Input
                         {...register("pseudo")}
                         className={errors.pseudo ? "border-red-500" : ""}
-                        placeholder="Your pseudo"
+                        placeholder={t("pseudoPlaceholder")}
                     />
                     {errors.pseudo && (
                         <div className="text-red-500 text-sm">{errors.pseudo.message}</div>
@@ -74,9 +76,9 @@ export function RegisterForm() {
                 </div>
                 <div>
                     <label htmlFor="email"
-                           className={errors.email ? "text-red-500 text-muted-foreground" : "text-muted-foreground"}
+                        className={errors.email ? "text-red-500 text-muted-foreground" : "text-muted-foreground"}
                     >
-                        Email
+                        {t("email")}
                     </label>
                     <Input
                         type="email"
@@ -90,14 +92,14 @@ export function RegisterForm() {
                 </div>
                 <div>
                     <label htmlFor="password"
-                           className={errors.password ? "text-red-500 text-muted-foreground" : "text-muted-foreground"}
+                        className={errors.password ? "text-red-500 text-muted-foreground" : "text-muted-foreground"}
                     >
-                        Password
+                        {t("password")}
                     </label>
                     <Input
                         type="password"
                         {...register("password")}
-                        placeholder="Your password"
+                        placeholder={t("passwordPlaceholder")}
                     />
                     {errors.password && (
                         <div className="text-red-500 text-sm">{errors.password.message}</div>
@@ -106,14 +108,14 @@ export function RegisterForm() {
 
                 <div>
                     <label htmlFor="confirmPassword"
-                           className={errors.confirmPassword ? "text-red-500 text-muted-foreground" : "text-muted-foreground"}
+                        className={errors.confirmPassword ? "text-red-500 text-muted-foreground" : "text-muted-foreground"}
                     >
-                        Confirm
+                        {t("confirmPassword")}
                     </label>
                     <Input
                         type="password"
                         {...register("confirmPassword")}
-                        placeholder="Confirm your password"
+                        placeholder={t("confirmPasswordPlaceholder")}
                     />
                     {errors.confirmPassword && (
                         <div className="text-red-500 text-sm">{errors.confirmPassword.message}</div>
@@ -125,24 +127,24 @@ export function RegisterForm() {
                     {
                         isSubmitting ? (
                             <Button size={'lg'} disabled
-                                    className="w-full text-sm font-semibold"
+                                className="w-full text-sm font-semibold"
                             >
-                                <Loader2 className="animate-spin"/>
+                                <Loader2 className="animate-spin" />
                                 Please wait
                             </Button>
                         ) : (
                             <Button size={'lg'}
-                                    type="submit"
-                                    className="w-full text-sm font-semibold"
+                                type="submit"
+                                className="w-full text-sm font-semibold"
                             >
-                                Log in
+                                {t("register")}
                             </Button>
                         )
                     }
 
                 </div>
                 <div className="text-sm font-medium leading-none">
-                    Already have an account? <Link href="/login" className="underline">Login</Link>
+                    {t("haveAccount")} <Link href="/login" className="underline">{t("login")}</Link>
                 </div>
             </div>
         </form>

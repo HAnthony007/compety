@@ -11,9 +11,11 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
 import { Loader2 } from 'lucide-react'
 import { useRouter } from "next/navigation";
+import { useScopedI18n } from "@/locales/client";
 
 export function LoginForm() {
     const router = useRouter();
+    const t = useScopedI18n("auth.loginForm");
 
     const {
         register,
@@ -60,7 +62,7 @@ export function LoginForm() {
                     <label htmlFor="email"
                         className={errors.email ? "text-red-500 text-muted-foreground" : "text-muted-foreground"}
                     >
-                        Email
+                        {t("email")}
                     </label>
                     <Input
                         type="email"
@@ -76,18 +78,18 @@ export function LoginForm() {
                     <label htmlFor="password"
                         className={errors.password ? "text-red-500 text-muted-foreground" : "text-muted-foreground"}
                     >
-                        Password
+                        {t("password")}
                     </label>
                     <Input
                         type="password"
                         {...register("password")}
-                        placeholder="Your password"
+                        placeholder={t("passwordPlaceholder")}
                     />
                     {errors.password && (
                         <div className="text-red-500 text-sm">{errors.password.message}</div>
                     )}
                     <div className="text-right text-sm text-muted-foreground underline">
-                        <Link href="#">Forgot password</Link>
+                        <Link href="#">{t("forgotPassword")}</Link>
                     </div>
                 </div>
             </div>
@@ -107,14 +109,14 @@ export function LoginForm() {
                                 type="submit"
                                 className="w-full text-sm font-semibold"
                             >
-                                Log in
+                                {t("title")}
                             </Button>
                         )
                     }
 
                 </div>
                 <div className="text-sm font-medium leading-none">
-                    Don't have an account? <Link href="/register" className="underline">Register</Link>
+                    {t("createAccount")} <Link href="/register" className="underline">{t("register")}</Link>
                 </div>
             </div>
         </form>
