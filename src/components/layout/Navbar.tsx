@@ -1,5 +1,6 @@
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar"
-import { ToggleLangage } from "./ToogleLangage"
+import { ToggleTheme } from "./ToggleTheme"
+import { ToggleLanguage } from "./ToggleLanguage"
 
 export const Navbar = () => {
     return (
@@ -9,7 +10,8 @@ export const Navbar = () => {
             </nav>
             <div>
                 <div className="flex items-center justify-center flex-1 space-x-5">
-                    <ToggleLangage />
+                    <ToggleLanguage />
+                    <ToggleTheme />
                     <Avatar>
                         <AvatarImage src="https://github.com/shadcn.png" />
                         <AvatarFallback>CN</AvatarFallback>

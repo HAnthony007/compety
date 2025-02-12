@@ -2,7 +2,7 @@
 import { useChangeLocale, useCurrentLocale, useScopedI18n } from "@/locales/client";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "../ui/select";
 
-export function ToggleLangage() {
+export function ToggleLanguage() {
     const t = useScopedI18n("language");
     const locale = useCurrentLocale();
     const changeLocale = useChangeLocale();
