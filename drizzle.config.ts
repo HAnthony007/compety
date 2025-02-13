@@ -6,6 +6,6 @@ export default defineConfig({
     schema: './src/db/schema.ts',
     dialect: 'postgresql',
     dbCredentials: {
-        url: process.env.DATABASE_URL!,
+        url: "postgres://postgres:1234@localhost:5432/compety_db",
     }
 })
