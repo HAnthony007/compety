@@ -6,7 +6,6 @@
 
 Bienvenue dans notre projet de préparation pour **EMIHACK 3.0** ! Ce hackathon technologique est l'opportunité parfaite pour repousser les limites de l'innovation. Nous combinons **authentification avancée**, **communication en temps réel** et **intelligence artificielle** pour créer une expérience utilisateur immersive en **3D** et **interactive**. 🏆
 
-
 ## 🚀 Fonctionnalités Clés
 
 🔹 **🛡️ Authentification avec Auth0** - OAuth & JWT pour une sécurité optimale.
@@ -31,14 +30,13 @@ Bienvenue dans notre projet de préparation pour **EMIHACK 3.0** ! Ce hackathon 
 
 👨‍💻 [**RAKOTOARIMANANA Harifetra Anthony**](https://github.com/HAnthony007) - Lead Développeur & Fullstack Next.js 🚀
 
-👨‍🎨 [**Nom du Participant 2**](https://github.com/participant2) - UI/UX & Frontend 🎨
+👨‍🎨 [**SAFIDY Nomenjanahary Euphremino Romeo**](https://github.com/Euphremino) - UI/UX & Frontend 🎨
 
-🤖 [**Andriamihaja Antsotiana Giovanni**](https://github.com/AntsoTianaG) - IA & Machine Learning 🧠
+🤖 [**ANDRIAMIHAJA Antsotiana Giovanni**](https://github.com/AntsoTianaG) - IA & Machine Learning 🧠
 
-🎥 [**Falitiana Patrick**](https://github.com/FALY18) - WebRTC & Vidéo Temps Réel 🎬
+🎥 [**FALITINA Charlot Patrick**](https://github.com/FALY18) - WebRTC & Vidéo Temps Réel 🎬
 
 📡 [**Nom du Participant 5**](https://github.com/participant5) - Présentation & PowerPoint 📊
-
 
 ## 🔧 Installation & Configuration
 
@@ -56,7 +54,10 @@ cd compety
 # Installer les dépendances
 bun install
 
+
 # modifier le fichier .env pour correspondre a votre base de donnees
+# DATABASE_URL=postgres://<user>:<password>@<host>:<port>/<database>
+
 
 # Faire la migration de la base de donnees
 bunx --bun drizzle-kit push
@@ -68,6 +69,5 @@ bun dev
 ## 👥 Contribution
 
 Nous accueillons vos contributions avec plaisir ! 🛠️ Créez une **issue** ou soumettez une **pull request**.
-
 
 <p align="right"><a href="#top">Back to top ↑</a></p>
