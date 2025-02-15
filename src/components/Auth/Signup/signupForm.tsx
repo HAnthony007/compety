@@ -13,6 +13,18 @@ import { registerFormSchemas, registerSchemaType } from "./signupSchema";
 import { registerAction } from "./signup.action";
 import { useScopedI18n } from "@/locales/client";
 
+// Cette fonction gère la capture faciale (à personnaliser selon ton système de reconnaissance)
+const handleCaptureFace = async () => {
+    // Ton code de capture faciale ici, ex: ouvrir la caméra et capturer l'image
+    console.log("Face capture started...");
+    // Exemple de code pour une capture réussie, tu peux remplacer par ton propre code
+    return new Promise((resolve) => {
+        setTimeout(() => {
+            resolve(true);  // simuler une capture réussie
+        }, 2000);
+    });
+}
+
 export function RegisterForm() {
     const router = useRouter();
     const t = useScopedI18n("auth.registerForm");
@@ -28,6 +40,7 @@ export function RegisterForm() {
     });
 
     const [isSubmitting, setIsSubmitting] = useState(false)
+    const [isCapturingFace, setIsCapturingFace] = useState(false)
 
     const onSubmit = async (data: registerSchemaType) => {
         setIsSubmitting(true)
@@ -35,7 +48,7 @@ export function RegisterForm() {
         toast.promise(
             registerAction(data),
             {
-                loading: "Register in...",
+                loading: "Registering...",
                 success: (result) => {
                     setIsSubmitting(false)
                     reset();
@@ -43,37 +56,34 @@ export function RegisterForm() {
                         router.push('/login');
                         return result.successMessage
                     }
-                    return "Register successfully!"
+                    return "Registration successful!"
                 },
                 error: (result) => {
                     setIsSubmitting(false)
                     if (result.errors) {
                         return Object.values(result.errors).join(", ");
                     }
-                    return result.errorMessage || "Failed register";
+                    return result.errorMessage || "Registration failed";
                 }
             }
         )
     }
 
+    const handleFaceCapture = async () => {
+        setIsCapturingFace(true);
+        const faceCaptured = await handleCaptureFace();
+        setIsCapturingFace(false);
+
+        if (faceCaptured) {
+            toast.success("Face captured successfully!");
+        } else {
+            toast.error("Face capture failed.");
+        }
+    };
+
     return (
         <form className="grid gap-10" onSubmit={handleSubmit(onSubmit)}>
             <div className="flex flex-col gap-6">
-                <div>
-                    <label htmlFor="pseudo"
-                        className={errors.pseudo ? "text-red-500 text-muted-foreground" : "text-muted-foreground"}
-                    >
-                        {t("pseudo")}
-                    </label>
-                    <Input
-                        {...register("pseudo")}
-                        className={errors.pseudo ? "border-red-500" : ""}
-                        placeholder={t("pseudoPlaceholder")}
-                    />
-                    {errors.pseudo && (
-                        <div className="text-red-500 text-sm">{errors.pseudo.message}</div>
-                    )}
-                </div>
                 <div>
                     <label htmlFor="email"
                         className={errors.email ? "text-red-500 text-muted-foreground" : "text-muted-foreground"}
@@ -90,6 +100,7 @@ export function RegisterForm() {
                         <div className="text-red-500 text-sm">{errors.email.message}</div>
                     )}
                 </div>
+
                 <div>
                     <label htmlFor="password"
                         className={errors.password ? "text-red-500 text-muted-foreground" : "text-muted-foreground"}
@@ -123,6 +134,18 @@ export function RegisterForm() {
                 </div>
             </div>
             <div className={'flex flex-col gap-4'}>
+                {/* Ajout du bouton pour capturer la reconnaissance faciale */}
+                <div>
+                    <Button 
+                        type="button" 
+                        onClick={handleFaceCapture} 
+                        className="w-full text-sm font-semibold"
+                        disabled={isCapturingFace}
+                    >
+                        {isCapturingFace ? <Loader2 className="animate-spin" /> : "Capture Face"}
+                    </Button>
+                </div>
+
                 <div>
                     {
                         isSubmitting ? (

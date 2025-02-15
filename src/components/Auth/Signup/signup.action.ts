@@ -1,23 +1,54 @@
-'use server'
-import { convertZodErrors } from '@/lib/utils'
-import { registerFormSchemas, registerSchemaType } from './signupSchema'
+"use server";
 
-export async function registerAction(formData: registerSchemaType) {
-    const validatedFields = registerFormSchemas.safeParse(formData)
+import { db } from "@/db"; // Assure-toi d'avoir une connexion à la base de données
+import bcrypt from "bcryptjs";
+import { registerFormSchemas } from "./signupSchema";
+import { z } from "zod";
+import { usersTable } from "@/db/schema"; // Assure-toi d'importer correctement ton schéma
 
-    await new Promise((resolve) => setTimeout(resolve, 2000))
-    if (!validatedFields.success) {
-        const errors = convertZodErrors(validatedFields.error)
-        console.log("Zod errors")
-        console.log(errors)
-        return {
-            errors,
-            errorMessage: 'Login failed'
+export async function registerAction(formData: unknown) {
+    try {
+        // Validation avec Zod
+        const data = registerFormSchemas.parse(formData);
+
+        // Vérification si l'email existe déjà
+        const existingUser = await db
+            .select()
+            .from(usersTable)
+            .where(usersTable.email, "=", data.email)
+            .limit(1) // On ne veut qu'un seul utilisateur, donc limite à 1
+            .execute();
+
+        if (existingUser.length > 0) {
+            return { errorMessage: "L'email est déjà utilisé." };
         }
-    }
-    // console.log('Login successful')
-    // console.log(validatedFields)
-    return {
-        successMessage: 'Login successful'
+
+        // Hasher le mot de passe
+        const hashedPassword = await bcrypt.hash(data.password, 10);
+
+        // Préparer le vecteur "face" (s'il existe)
+        const faceVector = data.face && Array.isArray(data.face) && data.face.length > 0
+            ? data.face // Utilise directement le tableau
+            : null;
+
+        // Enregistrement de l'utilisateur
+        const insertResult = await db
+            .insert(usersTable)
+            .values({
+                email: data.email,
+                password: hashedPassword,
+                role: 'user', // Valeur par défaut pour "role"
+                photo: data.photo || null, // "photo" est optionnel
+                face: faceVector, // Si "face" existe
+            })
+            .returning() // Optionnel pour voir ce qui a été inséré
+            .execute();
+
+        return { successMessage: "Inscription réussie !" };
+    } catch (error) {
+        if (error instanceof z.ZodError) {
+            return { errors: error.flatten().fieldErrors };
+        }
+        return { errorMessage: "Erreur lors de l'inscription." };
     }
 }
