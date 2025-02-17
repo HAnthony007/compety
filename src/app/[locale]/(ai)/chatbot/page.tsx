@@ -9,11 +9,7 @@ export default function ChatBotPage() {
             {messages.map((m) => (
                 <div key={m.id} className="whitespace-pre-wrap">
                     {m.role === "user" ? "User: " : "AI: "}
-                    {m.toolInvocations ? (
-                        <pre>{JSON.stringify(m.toolInvocations, null, 2)}</pre>
-                    ) : (
-                        <p>{m.content}</p>
-                    )}
+                    {m.content}
                 </div>
             ))}
             <form onSubmit={handleSubmit}>
