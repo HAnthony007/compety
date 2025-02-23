@@ -20,11 +20,11 @@ Bienvenue dans notre projet de préparation pour **EMIHACK 3.0** ! Ce hackathon 
 
 ## 🛠️ Technologies Utilisées
 
-* **Frontend & Backend** : 🎨 Next.js 15, ShadcnUI, TypeScript, PostgreSQL, WebSockets
-* **IA & Machine Learning** : AI SDK Vercel, Google AI Generative
-* **Authentification** : 🔐 Auth0, JWT, 📸 Reconnaissance Faciale
-* **Temps Réel** : 🌍 WebRTC, WebSockets
-* **PWA** : 📲 Service Workers, IndexedDB
+-   **Frontend & Backend** : 🎨 Next.js 15, ShadcnUI, TypeScript, PostgreSQL, WebSockets
+-   **IA & Machine Learning** : AI SDK Vercel, Google AI Generative
+-   **Authentification** : 🔐 Auth0, JWT, 📸 Reconnaissance Faciale
+-   **Temps Réel** : 🌍 WebRTC, WebSockets
+-   **PWA** : 📲 Service Workers, IndexedDB
 
 ## 🔥 Équipe de Développement
 
