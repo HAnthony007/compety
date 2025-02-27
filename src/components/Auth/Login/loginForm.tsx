@@ -42,6 +42,7 @@ export function LoginForm() {
             },
             error: (result) => {
                 setIsSubmitting(false);
+                console.log(result);
                 if (result.errors) {
                     return Object.values(result.errors).join(", ");
                 }

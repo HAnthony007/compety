@@ -1,18 +1,25 @@
-'use client';
+"use client";
+import ThemeProvider from "@/components/layout/theme-provider";
 import { I18nProviderClient } from "@/locales/client";
-import { PropsWithChildren } from "react";
-import { ThemeProvider as NextThemesProviders, useTheme } from 'next-themes';
+import { SessionProvider, SessionProviderProps } from "next-auth/react";
+import React from "react";
 
-export const Providers = (props: PropsWithChildren<{ locale: string }>) => {
+interface ProvidersProps {
+    locale: string;
+    session: SessionProviderProps["session"];
+    children: React.ReactNode;
+}
+
+export const Providers: React.FC<ProvidersProps> = ({
+    locale,
+    session,
+    children,
+}) => {
     return (
-        <I18nProviderClient locale={props.locale}>
-            <NextThemesProviders enableSystem
-                attribute='class'
-                defaultTheme="system"
-                disableTransitionOnChange
-            >
-                {props.children}
-            </NextThemesProviders>
+        <I18nProviderClient locale={locale}>
+            <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+                <SessionProvider session={session}>{children}</SessionProvider>
+            </ThemeProvider>
         </I18nProviderClient>
     );
-}
+};

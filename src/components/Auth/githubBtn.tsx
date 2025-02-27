@@ -3,6 +3,7 @@ import { GithubIcon } from "@/components/icon/iconApp";
 import { Button } from "@/components/ui/button";
 import { Loader2 } from "lucide-react";
 import { useActionState } from "react";
+import { Icons } from "../icon/icons";
 import { githubAction } from "./Login/login.action";
 
 export const GithubSign = () => {
@@ -12,6 +13,7 @@ export const GithubSign = () => {
             {pending ? (
                 <Button disabled variant="outline" className="w-full text-sm">
                     <Loader2 />
+                    <Icons.gitHub className="mr-2 h-4 w-4" />
                     <GithubIcon />
                     Login with GitHub
                 </Button>
