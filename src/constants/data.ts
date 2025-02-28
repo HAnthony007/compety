@@ -33,4 +33,12 @@ export const navItems: NavItem[] = [
         shortcut: ["t", "s"],
         items: [],
     },
+    {
+        title: "STT",
+        url: "/dashboard/stt",
+        icon: "mic",
+        isActive: false,
+        shortcut: ["s", "t"],
+        items: [],
+    },
 ];
