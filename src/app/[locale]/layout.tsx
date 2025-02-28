@@ -1,8 +1,10 @@
-import { Navbar } from "@/components/layout/Navbar";
+import NavBarWrapper from "@/components/navbar-wrapper";
+import { auth } from "@/lib/auth";
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import NextTopLoader from "nextjs-toploader";
 import { Toaster } from "sonner";
-import "./globals.css";
+import "../globals.css";
 import { Providers } from "./providers";
 
 const geistSans = Geist({
@@ -31,13 +33,15 @@ export default async function RootLayout({
     };
 }>) {
     const resolvedParams = await params;
+    const session = await auth();
     return (
-        <html lang="en" suppressHydrationWarning={true}>
+        <html lang={resolvedParams.locale} suppressHydrationWarning>
             <body
                 className={`${geistSans.variable} ${geistMono.variable} antialiased`}
             >
-                <Providers locale={resolvedParams.locale}>
-                    <Navbar />
+                <NextTopLoader showSpinner={false} />
+                <Providers session={session} locale={resolvedParams.locale}>
+                    <NavBarWrapper />
                     <Toaster position="bottom-right" richColors closeButton />
                     {children}
                 </Providers>

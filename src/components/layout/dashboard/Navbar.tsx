@@ -1,6 +1,6 @@
-import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar"
-import { ToggleTheme } from "./ToggleTheme"
-import { ToggleLanguage } from "./ToggleLanguage"
+import { Avatar, AvatarFallback, AvatarImage } from "../../ui/avatar";
+import { ToggleLanguage } from "../ToggleLanguage";
+import { ToggleTheme } from "../ToggleTheme";
 
 export const Navbar = () => {
     return (
@@ -19,5 +19,5 @@ export const Navbar = () => {
                 </div>
             </div>
         </header>
-    )
-}
+    );
+};
