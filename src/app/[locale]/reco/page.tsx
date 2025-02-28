@@ -1,4 +1,4 @@
-import FaceRecognition from "@/components/FaceRecognition";
+import FaceRecognition from "@/app/[locale]/reco/FaceRecognition";
 
 export default function Home() {
   return (
