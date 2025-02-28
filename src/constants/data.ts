@@ -25,4 +25,12 @@ export const navItems: NavItem[] = [
         shortcut: ["c", "c"],
         items: [],
     },
+    {
+        title: "TTS",
+        url: "/dashboard/tts",
+        icon: "speech",
+        isActive: false,
+        shortcut: ["t", "s"],
+        items: [],
+    },
 ];
