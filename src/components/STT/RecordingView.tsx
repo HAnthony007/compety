@@ -12,7 +12,7 @@ declare global {
 export default function RecordingView() {
     const [isRecording, setIsRecording] = useState<boolean>(false);
     const [recordingComplete, setRecordingComplete] = useState<boolean>(false);
-    const [transcript, setTranscript] = useState<boolean>(false);
+    const [transcript, setTranscript] = useState("");
 
     const recognitionRef = useRef<any>(null);
 
@@ -25,6 +25,7 @@ export default function RecordingView() {
 
         recognitionRef.current.onresult = (event: any) => {
             const { transcript } = event.results[event.results.length - 1][0];
+            console.log(event.results);
             setTranscript(transcript);
         };
 
