@@ -24,27 +24,37 @@ export default function GroupChat({ group, currentUser }: GroupChatProps) {
   const socketRef = useRef<any>(null);
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
 
+  // Récupérer les messages initiaux
   useEffect(() => {
-    fetch(`http://localhost:3000/api/groups/getMessage?group_id=${group.id_group}`)
+    fetch(
+      `http://localhost:3000/api/groups/getMessage?group_id=${group.id_group}`
+    )
       .then((res) => res.json())
       .then((data) => {
-        console.log(" Messages récupérés :", data);
+        console.log("Messages récupérés :", data);
         setMessages(data);
       })
-      .catch((error) => console.error("⚠️ Erreur chargement messages :", error));
+      .catch((error) =>
+        console.error("⚠️ Erreur chargement messages :", error)
+      );
   }, [group]);
 
   // Connexion WebSocket
   useEffect(() => {
     socketRef.current = io("http://localhost:3001");
 
-     socketRef.current.emit("joinGroups", currentUser.id_user);
-     socketRef.current.emit("joinGroup", group.id_group);
+    socketRef.current.emit("joinGroup", group.id_group); // Joindre la room du groupe
 
-    //recup newmsg
+    // Récupérer les nouveaux messages
     socketRef.current.on("newGroupMessage", (message: GroupMessage) => {
-      console.log(" Nouveau message reçu :", message);
-      setMessages((prev) => [...prev, message]);
+      console.log("Nouveau message reçu :", message);
+      setMessages((prevMessages) => {
+        // Vérifier si le message existe déjà dans l'état
+        if (!prevMessages.some((msg) => msg.id_msg === message.id_msg)) {
+          return [...prevMessages, message]; // Ajouter uniquement s'il n'existe pas déjà
+        }
+        return prevMessages; // Si le message existe déjà, ne pas l'ajouter
+      });
     });
 
     return () => {
@@ -52,61 +62,78 @@ export default function GroupChat({ group, currentUser }: GroupChatProps) {
     };
   }, [group, currentUser]);
 
-  // defile
+  // Défilement automatique vers le bas à chaque nouveau message
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
+  // Fonction d'envoi de message
   const sendMessage = () => {
     if (newMessage.trim() === "") return;
-  
+
     const messageData = {
       text: newMessage,
       senderId: currentUser.id_user,
       groupId: group.id_group,
       created_at: new Date().toISOString(),
+      status: "sent", // Statut du message
+    };
+
+    // Optimistic update: Ajout immédiat du message localement
+    const optimisticMessage = {
+      ...messageData,
+      id_msg: Date.now().toString(), // Utilisation d'un ID temporaire pour éviter la duplication
       status: "sent",
     };
-  
-    // Envoi au serveur via WebSocket
+
+    setMessages((prevMessages) => [...prevMessages, optimisticMessage]);
+
+    // Envoi du message au serveur via WebSocket
     socketRef.current.emit("sendGroupMessage", messageData);
-    setNewMessage(""); 
+    setNewMessage(""); // Réinitialisation du champ de message
   };
-  
 
   return (
     <div className="p-4">
       <h2 className="text-xl font-bold mb-4">Groupe : {group.nom}</h2>
       <div className="max-h-[400px] overflow-y-auto mb-4">
         {messages.map((msg, index) => (
-          <div key={msg.id_msg || `msg-${index}`} className="mb-2 p-2 border rounded">
+          <div
+            key={`${msg.id_msg}-${msg.sender_id}`} // Clé unique en combinant 'id_msg' et 'sender_id'
+            className="mb-2 p-2 border rounded"
+          >
             <p>{msg.text}</p>
             <div className="text-xs text-gray-500">
-              {msg.sender_id === currentUser.id_user ? "Moi" : `Utilisateur ${msg.sender_id}`} -{" "}
-              {new Date(msg.created_at).toLocaleString()} - <em>{}</em>
+              {msg.sender_id === currentUser.id_user
+                ? "Moi"
+                : `Utilisateur ${msg.sender_id}`}{" "}
+              - {new Date(msg.created_at).toLocaleString()} -{" "}
+              <em>{msg.status}</em>
             </div>
           </div>
         ))}
         <div ref={messagesEndRef} />
       </div>
 
-      <form action="" onSubmit={
-        (e) =>{e.preventDefault();
-         sendMessage()}}>   
-          <div className="flex space-x-2">
-            <input
-              type="text"
-              value={newMessage}
-              onChange={(e) => setNewMessage(e.target.value)}
-              placeholder="Écrire un message..."
-              className="flex-1 p-2 border rounded"
-            />
-            <button onClick={sendMessage} className="bg-blue-500 text-white p-2 rounded">
-              Envoyer
-            </button>
-          </div>
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          sendMessage();
+        }}
+      >
+        <div className="flex space-x-2">
+          <input
+            type="text"
+            value={newMessage}
+            onChange={(e) => setNewMessage(e.target.value)}
+            placeholder="Écrire un message..."
+            className="flex-1 p-2 border rounded"
+          />
+          <button type="submit" className="bg-blue-500 text-white p-2 rounded">
+            Envoyer
+          </button>
+        </div>
       </form>
-      
     </div>
   );
 }

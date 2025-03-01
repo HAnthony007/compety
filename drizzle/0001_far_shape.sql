@@ -1,0 +1,1 @@
+ALTER TABLE "group_messages" RENAME COLUMN "id_msgr" TO "id_msg";
