@@ -28,7 +28,7 @@ export const messagesTable = pgTable("messages", {
     .notNull()
     .references(() => usersTable.id_user, { onDelete: "cascade" }),
 
-  status: varchar("status", { length: 20 }).default("sent").notNull(), // ✅ Ajout du statut
+  status: varchar("status", { length: 20 }).default("sent").notNull(),
 
   created_at: timestamp("created_at", { mode: "date" }).defaultNow().notNull(),
 });
