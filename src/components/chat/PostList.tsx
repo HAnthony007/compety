@@ -16,7 +16,7 @@ export default function GroupList({ userId, onSelectGroup }: GroupListProps) {
 
   useEffect(() => {
     console.log("userId :", userId);
-    fetch(`http://localhost:3000/api/groups/getGp?userId=${userId}`)
+    fetch(`http://localhost:3000/api/groups/getPost?userId=${userId}`)
       .then((res) => {
         console.log("Statut de la réponse :", res.status);
         return res.text();

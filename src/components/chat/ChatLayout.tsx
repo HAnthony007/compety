@@ -5,8 +5,8 @@ import ChatUserList, { User } from "./ChatUserList";
 import ChatHeader from "./ChatHeader";
 import ChatRoom from "./ChatRoom";
 import ChatForm from "./ChatForm";
-import GroupList, { Group } from "./GroupList";
-import GroupChat from "./GroupChat";
+import GroupList, { Group } from "./PostList";
+import GroupChat from "./PostChat";
 import LoginModal from "./chatLogin";
 import { useChatSocket } from "./useChatSocket";
 import { useChatStore, ChatMessageType } from "./chatStore";
@@ -87,7 +87,7 @@ export default function ChatLayout() {
             </>
           ) : (
             <div className="p-4 text-gray-500 mt-[100px] font-thin text-xs">
-              Sélectionnez un utilisateur ou un groupe pour démarrer la conversation
+              Sélectionnez un utilisateur ou Voir Post
             </div>
           )}
         </div>
