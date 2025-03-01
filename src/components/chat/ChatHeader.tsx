@@ -1,30 +1,26 @@
-'use client';
+"use client";
 
-import { FiPhoneCall, FiVideo } from 'react-icons/fi';
+import { User } from "./ChatUserList";
 
 interface ChatHeaderProps {
-  currentUser: string;
+  user: User;
 }
 
-export default function ChatHeader({ currentUser }: ChatHeaderProps) {
+export default function ChatHeader({ user }: ChatHeaderProps) {
   return (
-    <div className="flex items-center justify-between px-4 py-2 bg-white border border-gray-100 text-black rounded-sm">
-      <div className="flex items-center gap-2">
-        <div className="w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center">
-          
-          {currentUser.charAt(0).toUpperCase()}
+    <div className="flex items-center p-4 bg-gray-200">
+      {user.photo ? (
+        <img
+          src={user.photo}
+          alt="Photo de profil"
+          className="w-10 h-10 rounded-full mr-3"
+        />
+      ) : (
+        <div className="w-10 h-10 rounded-full bg-gray-300 mr-3 flex items-center justify-center text-xs text-gray-600">
+          N/A
         </div>
-        <span className="font-bold">{currentUser}</span>
-      </div>
-
-      <div className="flex items-center gap-10 mr-[100px]">
-        <button className="hover:text-blue-400 transition-colors">
-          <FiPhoneCall size={20} />
-        </button>
-        <button className="hover:text-blue-400 transition-colors">
-          <FiVideo size={20} />
-        </button>
-      </div>
+      )}
+      <span className="font-bold text-gray-700">{user.email}</span>
     </div>
   );
 }

@@ -6,8 +6,8 @@ import ChatLayout from "./ChatLayout";
 export default function Home() {
   const { messages, sendMessage } = useChatSocket();
 
-  const users = ["Patrick","Caélla","Anthony","Giovani","GG","Roméo","Inconnu"];
-  const currentUser = "Me";
+  const users = [""];
+  const currentUser = "";
 
   return (
     <ChatLayout
