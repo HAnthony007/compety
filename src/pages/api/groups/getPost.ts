@@ -5,11 +5,13 @@ import { groupesTable } from "@/db/schema";
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === "GET") {
     try {
-      // Récupérer tous les groupes sans restriction
+      // Récupérer tous les groupes avec toutes les colonnes définies
       const groups = await db
         .select({
           id_group: groupesTable.id_group,
           nom: groupesTable.nom,
+          description: groupesTable.description,
+          photos: groupesTable.photos,
           created_at: groupesTable.created_at,
         })
         .from(groupesTable);
