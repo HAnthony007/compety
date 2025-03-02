@@ -16,46 +16,58 @@ export default function ChatLayout() {
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
   const [selectedGroup, setSelectedGroup] = useState<Group | null>(null);
   const [conversation, setConversation] = useState<ChatMessageType[]>([]);
+  const [isLoading, setIsLoading] = useState(false); // Ajout de isLoading ✅
+
   const { sendMessage } = useChatSocket();
   const { messages } = useChatStore();
+
   const handleSendMessage = (messageText: string) => {
     if (!currentUser || !selectedUser) return;
-    const tempId = Date.now().toString() + Math.random().toString(36).substr(2, 9);
+    const tempId =
+      Date.now().toString() + Math.random().toString(36).substr(2, 9);
     const messageData = {
       id_msg: tempId,
       text: messageText,
-      sender_id: currentUser.id_user,       // Clé attendue : sender_id
-      receveur_id: selectedUser.id_user,     // Clé attendue : receveur_id
+      sender_id: currentUser.id_user,
+      receveur_id: selectedUser.id_user,
       created_at: new Date().toISOString(),
       status: "sent",
     };
     sendMessage(messageData);
   };
-  
 
   useEffect(() => {
     async function fetchConversation() {
       if (currentUser) {
+        setIsLoading(true); // Active le chargement 🚀
         try {
           let res;
           if (selectedUser) {
-            res = await fetch(`/api/conversation?user1=${currentUser.id_user}&user2=${selectedUser.id_user}`);
+            res = await fetch(
+              `/api/conversation?user1=${currentUser.id_user}&user2=${selectedUser.id_user}`
+            );
           } else if (selectedGroup) {
-            res = await fetch(`/api/groups/getMessage?group_id=${selectedGroup.id_group}`);
+            res = await fetch(
+              `/api/groups/getMessage?group_id=${selectedGroup.id_group}`
+            );
           }
-  
+
           if (res) {
             const data = await res.json();
             setConversation(data);
           }
         } catch (error) {
-          console.error("Erreur lors de la récupération de la conversation:", error);
+          console.error(
+            "Erreur lors de la récupération de la conversation:",
+            error
+          );
+        } finally {
+          setIsLoading(false); // Désactive le chargement ✅
         }
       }
     }
     fetchConversation();
   }, [currentUser, selectedUser, selectedGroup]);
-  
 
   return (
     <div className="relative">
@@ -77,13 +89,20 @@ export default function ChatLayout() {
           />
         </div>
         <div className="flex flex-col flex-1 ml-4 rounded-lg border border-gray-200">
-          {selectedGroup ? (
+          {isLoading ? (
+            <div className="text-gray-500 text-center">
+              Chargement des messages...
+            </div>
+          ) : selectedGroup ? (
             <GroupChat group={selectedGroup} currentUser={currentUser} />
           ) : selectedUser ? (
             <>
               <ChatHeader user={selectedUser} />
               <ChatRoom messages={conversation} currentUser={currentUser} />
-              <ChatForm onSendMessage={handleSendMessage} recipientId={selectedUser.id_user} />
+              <ChatForm
+                onSendMessage={handleSendMessage}
+                recipientId={selectedUser.id_user}
+              />
             </>
           ) : (
             <div className="p-4 text-gray-500 mt-[100px] font-thin text-xs">
@@ -92,7 +111,9 @@ export default function ChatLayout() {
           )}
         </div>
       </div>
-      {!currentUser && <LoginModal onAuthenticated={(user) => setCurrentUser(user)} />}
+      {!currentUser && (
+        <LoginModal onAuthenticated={(user) => setCurrentUser(user)} />
+      )}
     </div>
   );
 }
