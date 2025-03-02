@@ -9,8 +9,10 @@ export interface GroupMessage {
   group_id: number;
   created_at: string;
   status: "sent" | "seen";
-  image_url?: string;
-  audio_url?: string;
+  image_url?: string;  // URL d'image
+  audio_url?: string;  // URL de fichier audio
+  description?: string;  // Description pour la publication
+  link?: string;  // Lien dans la publication
 }
 
 interface GroupChatProps {
@@ -93,23 +95,71 @@ export default function GroupChat({ group, currentUser }: GroupChatProps) {
     setNewMessage(""); // Réinitialisation du champ de message
   };
 
+  // Fonction pour afficher des éléments dans chaque message (image, audio, etc.)
+  const renderMessageContent = (msg: GroupMessage) => {
+    return (
+      <div className="space-y-2">
+        <p>{msg.text}</p>
+
+        {/* Affichage de la description si elle existe */}
+        {msg.description && (
+          <div className="text-sm text-gray-700">{msg.description}</div>
+        )}
+
+        {/* Affichage de l'image si elle existe */}
+        {msg.image_url && (
+          <img
+            src={msg.image_url}
+            alt="Message image"
+            className="w-full h-auto rounded-md"
+          />
+        )}
+
+        {/* Affichage de l'audio si elle existe */}
+        {msg.audio_url && (
+          <audio controls className="w-full">
+            <source src={msg.audio_url} />
+            Votre navigateur ne supporte pas l'audio.
+          </audio>
+        )}
+
+        {/* Affichage d'un lien si il existe */}
+        {msg.link && (
+          <a
+            href={msg.link}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-blue-500"
+          >
+            {msg.link}
+          </a>
+        )}
+      </div>
+    );
+  };
+
   return (
     <div className="p-4">
       <h2 className="text-xl font-bold mb-4">Groupe : {group.nom}</h2>
       <div className="max-h-[400px] overflow-y-auto mb-4">
-        {messages.map((msg, index) => (
+        {messages.map((msg) => (
           <div
             key={`${msg.id_msg}-${msg.sender_id}`} // Clé unique en combinant 'id_msg' et 'sender_id'
-            className="mb-2 p-2 border rounded"
+            className="mb-2 p-4 border rounded-lg bg-white shadow-md"
           >
-            <p>{msg.text}</p>
-            <div className="text-xs text-gray-500">
+            {/* Affichage du contenu du message */}
+            <div className="font-medium text-lg">
               {msg.sender_id === currentUser.id_user
                 ? "Moi"
-                : `Utilisateur ${msg.sender_id}`}{" "}
-              - {new Date(msg.created_at).toLocaleString()} -{" "}
+                : `Utilisateur ${msg.sender_id}`}
+            </div>
+            <div className="text-xs text-gray-500">
+              {new Date(msg.created_at).toLocaleString()} -{" "}
               <em>{msg.status}</em>
             </div>
+            
+            {/* Contenu enrichi */}
+            {renderMessageContent(msg)}
           </div>
         ))}
         <div ref={messagesEndRef} />
@@ -127,9 +177,9 @@ export default function GroupChat({ group, currentUser }: GroupChatProps) {
             value={newMessage}
             onChange={(e) => setNewMessage(e.target.value)}
             placeholder="Écrire un message..."
-            className="flex-1 p-2 border rounded"
+            className="flex-1 p-2 border rounded-md"
           />
-          <button type="submit" className="bg-blue-500 text-white p-2 rounded">
+          <button type="submit" className="bg-blue-500 text-white p-2 rounded-md">
             Envoyer
           </button>
         </div>
