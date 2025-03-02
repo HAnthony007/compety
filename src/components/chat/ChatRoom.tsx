@@ -1,4 +1,6 @@
+// ChatRoom.tsx
 "use client";
+
 import { useEffect, useRef, useState } from "react";
 import { io } from "socket.io-client";
 
@@ -7,9 +9,8 @@ const socket = io("http://localhost:3001");
 export default function ChatRoom({ messages, currentUser }) {
   const chatEndRef = useRef(null);
   const [messageStatus, setMessageStatus] = useState({});
-  const [messagesList, setMessagesList] = useState([...messages]); // ✅ Liste dynamique des messages
+  const [messagesList, setMessagesList] = useState([...messages]);
 
-  // Trier les messages par date
   useEffect(() => {
     setMessagesList((prevMessages) =>
       [...prevMessages].sort(
@@ -19,14 +20,12 @@ export default function ChatRoom({ messages, currentUser }) {
     );
   }, [messages]);
 
-  // Faire défiler automatiquement vers le dernier message
   useEffect(() => {
     if (chatEndRef.current) {
       chatEndRef.current.scrollIntoView({ behavior: "smooth" });
     }
   }, [messagesList]);
 
-  // Mettre à jour le statut des messages (Envoyé, Livré, Vu)
   useEffect(() => {
     messagesList.forEach((msg) => {
       if (msg.sender_id !== currentUser.id_user) {
@@ -48,7 +47,6 @@ export default function ChatRoom({ messages, currentUser }) {
     };
   }, [messagesList, currentUser.id_user]);
 
-  // ✅ Écouter l'arrivée de nouveaux messages
   useEffect(() => {
     socket.on("nouveauMessage", (newMessage) => {
       setMessagesList((prevMessages) => [...prevMessages, newMessage]);
@@ -59,7 +57,6 @@ export default function ChatRoom({ messages, currentUser }) {
     };
   }, []);
 
-  // Écouter les mises à jour du statut des messages
   useEffect(() => {
     socket.on("messageStatusUpdate", ({ messageId, status }) => {
       setMessageStatus((prev) => ({ ...prev, [messageId]: status }));
@@ -70,7 +67,6 @@ export default function ChatRoom({ messages, currentUser }) {
     };
   }, []);
 
-  // Formater la date d'un message
   const formatDate = (dateString) => {
     const date = new Date(dateString);
     return new Intl.DateTimeFormat("fr-FR", {
@@ -82,32 +78,29 @@ export default function ChatRoom({ messages, currentUser }) {
   };
 
   return (
-    <div className="p-4 ml-[90px] max-h-[400px] overflow-y-auto">
-      <h2 className="text-lg font-bold mb-4">
-        Conversation pour {currentUser.email}
-      </h2>
-      <ul className="list-none space-y-2">
+    <div className="p-6 max-h-[400px] overflow-y-auto bg-white shadow-lg rounded-xl">
+      <h2 className="text-xl font-semibold mb-4 text-primary">Conversation</h2>
+      <ul className="space-y-3">
         {messagesList.map((msg) => {
           const isOwnMessage = msg.sender_id === currentUser.id_user;
           const bgClass = isOwnMessage
-            ? "bg-blue-500 ml-[100px]"
-            : "bg-gray-300 mr-[40px]";
-          const textClass = isOwnMessage ? "text-white" : "text-black";
+            ? "bg-blue-500 text-white ml-16"
+            : "bg-gray-300 text-black mr-16";
           const status = messageStatus[msg.id_msg] || msg.status;
           const formattedDate = formatDate(msg.created_at);
 
           return (
             <div key={msg.id_msg}>
               <li
-                className={`p-4 border rounded-lg w-[500px] ${bgClass} ${textClass} overflow-hidden`}
+                className={`p-4 rounded-lg max-w-[70%] ${bgClass} break-words`}
               >
-                <p className="break-words whitespace-normal">{msg.text}</p>
+                {msg.text}
               </li>
               <div className="text-xs text-gray-500 mt-1 ml-[240px]">
                 {formattedDate}
               </div>
               {isOwnMessage && (
-                <div className="text-xs text-gray-500 mt-1 ml-[240px] mb-[20px]">
+                <div className="text-xs text-gray-500 mt-1 ml-[240px] mb-6">
                   {status === "seen"
                     ? "✔✔ Vu"
                     : status === "delivered"

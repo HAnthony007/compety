@@ -1,3 +1,4 @@
+// ChatLayout.tsx
 "use client";
 
 import { useState, useEffect } from "react";
@@ -16,7 +17,7 @@ export default function ChatLayout() {
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
   const [selectedGroup, setSelectedGroup] = useState<Group | null>(null);
   const [conversation, setConversation] = useState<ChatMessageType[]>([]);
-  const [isLoading, setIsLoading] = useState(false); // Ajout de isLoading ✅
+  const [isLoading, setIsLoading] = useState(false);
 
   const { sendMessage } = useChatSocket();
   const { messages } = useChatStore();
@@ -39,7 +40,7 @@ export default function ChatLayout() {
   useEffect(() => {
     async function fetchConversation() {
       if (currentUser) {
-        setIsLoading(true); // Active le chargement 🚀
+        setIsLoading(true);
         try {
           let res;
           if (selectedUser) {
@@ -62,7 +63,7 @@ export default function ChatLayout() {
             error
           );
         } finally {
-          setIsLoading(false); // Désactive le chargement ✅
+          setIsLoading(false);
         }
       }
     }
@@ -71,8 +72,8 @@ export default function ChatLayout() {
 
   return (
     <div className="relative">
-      <div className="flex w-[1300px] mt-3 h-[580px] ml-[30px] rounded-2xl overflow-hidden">
-        <div className="w-1/4 border-r border-gray-200">
+      <div className="flex w-full max-w-screen-xl mt-6 h-[600px] ml-6 rounded-2xl overflow-hidden shadow-lg">
+        <div className="w-1/4 bg-white p-4 border-r border-gray-200">
           <ChatUserList
             onSelectUser={(user) => {
               setSelectedUser(user);
@@ -88,9 +89,9 @@ export default function ChatLayout() {
             }}
           />
         </div>
-        <div className="flex flex-col flex-1 ml-4 rounded-lg border border-gray-200">
+        <div className="flex flex-col flex-1 ml-4 p-6 rounded-lg bg-white border border-gray-200">
           {isLoading ? (
-            <div className="text-gray-500 text-center">
+            <div className="text-center text-gray-500">
               Chargement des messages...
             </div>
           ) : selectedGroup ? (
@@ -105,8 +106,8 @@ export default function ChatLayout() {
               />
             </>
           ) : (
-            <div className="p-4 text-gray-500 mt-[100px] font-thin text-xs">
-              Sélectionnez un utilisateur ou Voir Post
+            <div className="p-4 text-center text-gray-500 font-thin">
+              Sélectionnez un utilisateur ou Voir un Post
             </div>
           )}
         </div>
