@@ -12,7 +12,7 @@ Bienvenue dans notre projet de préparation pour **EMIHACK 3.0** ! Ce hackathon 
 
 🔹 **📸 Reconnaissance Faciale** - Identifiez-vous avec votre visage.
 
-🔹 **💬 Chat & Vidéo en Temps Réel** - Communication fluide avec WebRTC.
+🔹 **💬 Chat & Vidéo en Temps Réel** - Communication fluide avec LiveKit.
 
 🔹 **🤖 Chatbot Intelligent** - Assistance instantanée grâce à l’IA.
 
@@ -24,7 +24,7 @@ Bienvenue dans notre projet de préparation pour **EMIHACK 3.0** ! Ce hackathon 
 -   **IA & Machine Learning** : AI SDK Vercel, Google AI Generative
 -   **Authentification** : 🔐 Auth0, JWT, 📸 Reconnaissance Faciale
 -   **Temps Réel** : 🌍 WebRTC, WebSockets
--   **PWA** : 📲 Service Workers, IndexedDB
+-   **PWA** : 📲 Next.js PWA.
 
 ## 🔥 Équipe de Développement
 
@@ -56,7 +56,6 @@ bun install
 
 
 # modifier le fichier .env pour correspondre a votre base de donnees
-# DATABASE_URL=postgres://<user>:<password>@<host>:<port>/<database>
 
 
 # Faire la migration de la base de donnees
