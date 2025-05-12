@@ -36,7 +36,6 @@ Bienvenue dans notre projet de préparation pour **EMIHACK 3.0** ! Ce hackathon 
 
 🎥 [**FALITINA Charlot Patrick**](https://github.com/FALY18) - WebRTC & Vidéo Temps Réel 🎬
 
-📡 [**Nom du Participant 5**](https://github.com/participant5) - Présentation & PowerPoint 📊
 
 ## 🔧 Installation & Configuration
 
